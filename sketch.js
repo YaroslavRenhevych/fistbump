@@ -54,3 +54,34 @@ function mousePressed() {
   background(220);
   localDiv.html('I sent a fistbump!');
 }
+
+function mouseReleased() {
+  sendMqttMessage('10');
+  background(240);
+  localDiv.html('I withdrew my fist');
+}
+
+function onConnect() {
+  localDiv.html('client is connected');
+  remoteDiv.html('topic is ' + topic);
+  client.subscribe(topic);
+}
+
+function onConnectionLost(response) {
+  if (response.errorCode !== 0) {
+    localDiv.html('onConnectionLost: ' + response.errorMessage);
+  }
+}
+
+function onMessageArrived(message) {
+  remoteDiv.html('I received a message: ' + message.payloadString);
+}
+
+function sendMqttMessage(msg) {
+  if (client.isConnected()) {
+    message = new Paho.MQTT.Message(msg);
+    message.destinationName = topic;
+    client.send(message);
+    statusDiv.html('I sent: ' + message.payloadString);
+  }
+}
