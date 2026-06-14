@@ -1,5 +1,5 @@
 let broker = {
-  hostname: 'public.cloud.shifter.io',
+  hostname: 'public.cloud.shiftr.io',
   port: 443
 };
 
